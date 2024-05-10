@@ -13,7 +13,7 @@ BEGIN
 	SET project_id = (SELECT id FROM projects WHERE name = project_name LIMIT 1);
 	-- sets value of the project_id to id of the project that matches the project_name. 
 	-- LIMIT 1 ensures that only 1 project is considered even if multiple projects have samename
-	INSERT INTO corrections VALUES (user_id, project_id, score);
+	INSERT INTO corrections (user_id, project_id, score) VALUES (user_id, project_id, score);
 
 END$$
 
