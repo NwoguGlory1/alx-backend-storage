@@ -10,4 +10,4 @@ def update_topics(mongo_collection, name, topics):
     function that updates all topics field of a school document
     identified by its name in mongo_collection
     """
-    mongo_collection.update_many({"name": name}, {$set: {"topics": topics}})
+    mongo_collection.update_many({"name": name}, {"$set": {"topics": topics}})
