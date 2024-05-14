@@ -14,6 +14,6 @@ def schools_by_topic(mongo_collection, topic):
     find() method is used to query on mongo_collection for where
     topics field contains specified topic
     """
-        returned_list = [document for document in document_topic]
-        """ Extract documents that match the specified topic """
-        return returned_list
+    returned_list = [document for document in document_topic]
+    """ Extract documents that match the specified topic """
+    return returned_list
