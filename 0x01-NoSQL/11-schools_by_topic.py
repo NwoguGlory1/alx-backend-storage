@@ -9,7 +9,7 @@ def schools_by_topic(mongo_collection, topic):
     """
     function that returns the list of school having a specific topic
     """
-    document_topic = mongo_collection.find({topics: "topic"})
+    document_topic = mongo_collection.find({"topics": topic})
     """
     find() method is used to query on mongo_collection for where
     topics field contains specified topic
