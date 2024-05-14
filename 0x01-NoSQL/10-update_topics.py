@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 def update_topics(mongo_collection, name, topics):
     """
-    function that updates the topics field of a school document
+    function that updates all topics field of a school document
     identified by its name in mongo_collection
     """
-    mongo_collection.update_one({"name": name}, {$set: {"topics": topics}})
+    mongo_collection.update_many({"name": name}, {$set: {"topics": topics}})
