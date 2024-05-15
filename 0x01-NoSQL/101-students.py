@@ -24,5 +24,6 @@ def top_students(mongo_collection):
                 }
             }
         {"$sort": {"averageScore": -1}}
-        ])
+    ])
+    
     return top_st
