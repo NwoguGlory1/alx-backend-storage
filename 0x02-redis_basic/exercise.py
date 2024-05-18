@@ -28,7 +28,7 @@ class Cache:
         value = fn(value)
     return value
 
-    def get_str(self) -> Optional[str]:
+    def get_str(self, key: str,) -> Optional[str]:
         """
         method that will automatically parametrize Cache.get
         with the correct conversion function
