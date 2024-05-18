@@ -40,4 +40,9 @@ class Cache:
         method that will automatically parametrize Cache.get
         with the correct conversion function
         """
-    return self._redis.get(key, fn=int)
+        value = self._redis.get(key)
+        try:
+            value = int(value.decode("utf-8"))
+        except Exception:
+            value = 0
+        return value
