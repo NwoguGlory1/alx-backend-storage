@@ -8,8 +8,6 @@ from typing import Union
 
 class Cache:
     """ declares the class, Cache"""
-    
-    
     def __init__(self):
         """Constructor Method """
         self._redis = redis.Redis()
