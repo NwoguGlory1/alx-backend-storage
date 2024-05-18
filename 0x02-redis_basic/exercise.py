@@ -33,7 +33,7 @@ class Cache:
         method that will automatically parametrize Cache.get
         with the correct conversion function
         """
-    return self._redis.get(key, fn=lambda d: d.decode("utf-8"))
+    return self._redis.get(key, .decode("utf-8"))
 
     def get_int(self, key: str) -> Optional[int]:
         """
