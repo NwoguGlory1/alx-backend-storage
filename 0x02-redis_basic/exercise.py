@@ -53,7 +53,7 @@ class Cache:
         Method that will automatically parametrize Cache.get
         with the correct conversion function for integers
         """
-        return self.get(key, fn=lambda d: int(d.decode("utf-8")))
+        return self.get(key, fn=lambda d: int((d))
 
 
 # Test block
