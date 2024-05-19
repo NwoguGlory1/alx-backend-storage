@@ -33,7 +33,7 @@ class Cache:
         return key
 
     def get(self, key: str,
-            fn: Optional[Callable[[bytes], Union[str, bytes, int, float]]] = None) -> Union[str, bytes, int, float, None]:
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """ Method that takes key string arg, optional Callable arg, fn"""
         value = self._redis.get(key)
         if value is not None and fn:
@@ -53,6 +53,7 @@ class Cache:
         with the correct conversion function for integers
         """
         return self.get(key, fn=lambda d: int(d.decode("utf-8")))
+
 
 # Test block
 if __name__ == "__main__":
