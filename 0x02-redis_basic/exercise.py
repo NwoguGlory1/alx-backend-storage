@@ -3,17 +3,20 @@ import redis
 import uuid
 from typing import Union, Callable, Optional
 from functools import wraps
+""" imports necessary modules """
 
-def count_calls(method):
+
+def count_calls(method: Callable) -> Callable:
     """ decorator function that count_calls to a method"""
     key = method.__qualname__
     """ generates a unique key using qualified name attribute"""
 
-    @functools.wraps(method)
+    @wraps(method)
     def wrapper_count_increment(self, *args, **kwargs):
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
+
 
 class Cache:
     """Declares the class Cache"""
@@ -29,8 +32,9 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable[[bytes], Union[str, bytes, int, float]]] = None) -> Union[str, bytes, int, float, None]:
-        """Method that takes a key string arg, optional Callable arg called fn"""
+    def get(self, key: str,
+            fn: Optional[Callable[[bytes], Union[str, bytes, int, float]]] = None) -> Union[str, bytes, int, float, None]:
+        """ Method that takes key string arg, optional Callable arg, fn"""
         value = self._redis.get(key)
         if value is not None and fn:
             value = fn(value)
