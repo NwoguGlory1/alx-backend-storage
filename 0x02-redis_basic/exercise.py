@@ -4,12 +4,13 @@ import uuid
 from typing import Union, Callable, Optional
 from functools import wraps
 
-def count_calls(method Callable):
+def count_calls(method):
     """ decorator function that count_calls to a method"""
     key = method.__qualname__
+    """ generates a unique key using qualified name attribute"""
 
     @functools.wraps(method)
-    def wrapper_count_increment(self, *args, **kwargs)
+    def wrapper_count_increment(self, *args, **kwargs):
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
