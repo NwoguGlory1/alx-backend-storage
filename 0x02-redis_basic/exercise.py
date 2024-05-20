@@ -15,7 +15,7 @@ def count_calls(method: Callable) -> Callable:
     def wrapper_count_increment(self, *args, **kwargs):
         self._redis.incr(key)
         return method(self, *args, **kwargs)
-    return wrapper
+    return wrapper_count_increment
 
 
 class Cache:
@@ -25,6 +25,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Store method that stores input data in Redis using a
         random key, returns the key"""
@@ -37,7 +38,7 @@ class Cache:
             None) -> Union[str, bytes, int, float]:
         """ Method that takes key string arg, optional Callable arg, fn"""
         value = self._redis.get(key)
-        if value is not None and fn:
+        if fn:
             value = fn(value)
         return value
 
@@ -46,14 +47,20 @@ class Cache:
         Method that will automatically parametrize Cache.get
         with the correct conversion function for strings
         """
-        return self.get(key, fn=lambda d: d.decode("utf-8"))
+        value = self._redis.get(key)
+        return value.decode("utf-8")
 
     def get_int(self, key: str) -> Optional[int]:
         """
         Method that will automatically parametrize Cache.get
         with the correct conversion function for integers
         """
-        return self.get(key, fn=lambda d: int((d))
+        value = self._redis.get(key)
+        try:
+            value = int(value.decode("utf-8"))
+        except Exception:
+            value = 0
+        return value
 
 
 # Test block
