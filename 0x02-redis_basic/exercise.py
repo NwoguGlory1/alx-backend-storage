@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """ Script that writes strings to Redis """
 import redis
 import uuid
