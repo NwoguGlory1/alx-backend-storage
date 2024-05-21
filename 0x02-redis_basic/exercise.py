@@ -27,6 +27,24 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(fn: Callable):
+    """Display the history of calls of a particular function"""
+    r = redis.Redis()
+    f_name = fn.__qualname__
+
+    n_calls = r.get(f_name)
+    n_calls = int(n_calls.decode('utf-8')) if n_calls else 0
+    print(f'{f_name} was called {n_calls} times:')
+
+    inputs = r.lrange(f_name + ":inputs", 0, -1)
+    outputs = r.lrange(f_name + ":outputs", 0, -1)
+
+    for i, o in zip(inputs, outputs):
+        i = i.decode('utf-8')
+        o = o.decode('utf-8')
+        print(f'{f_name}(*{i}) -> {o}')
+
+
 def count_calls(method: Callable) -> Callable:
     """ decorator function that count_calls to a method"""
     key = method.__qualname__
@@ -99,3 +117,9 @@ if __name__ == "__main__":
         key = cache.store(value)
         assert cache.get(key, fn=fn) == value
     print("All tests passed successfully.")
+
+    cache.store("foo")
+    cache.store("bar")
+    cache.store(42)
+
+    replay(cache.store)
